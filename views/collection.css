@@ -137,6 +137,17 @@ a.article, a.article:hover {
 
 
 
+.card-text{
+    margin: 0px;
+    color:#212121;
+}
+
+.btn btn-dark{
+    background-color: #000000;
+}
+
+
+
 
 
 
@@ -160,14 +171,12 @@ html, body{
 }
 
 .btn {
-    background-color: #4885f4;
     border-radius: 3px;
-    padding: 0 30px;
-    line-height: 37px;
+    padding: 10px;
     font-size: 12px;
     color: #fff;
     font-weight: 600;
-    width: 160px;
+    display: inline-block;
     box-shadow: 0px 17px 10px -10px rgba(81,117,214,0.4);
 }
 
@@ -569,3 +578,59 @@ margin-left: -30px;
       font-size: 16px;
    }
 }
+
+
+
+#guideliens{
+    background-color: #212121;
+}
+
+
+
+
+
+
+  
+  .accordian {
+    display: flex;
+    width: auto;
+    background-color: #f6f5f7;
+    color: white;
+    font-family: "Open Sans", sans-serif;
+    line-height: 1.75;
+    font-size: 0.875rem;
+    margin: 2rem;
+    box-shadow: 0px 9px 10px 10px rgb(0 0 0 / 20%);
+    border-radius: 10px;
+  }
+  .accordian--vertical {
+    flex-direction: column;
+  }
+  .accordian--vertical .accordian__item {
+    
+  }
+  .accordian--vertical .accordian__heading {
+    height: 30px;
+  }
+  .accordian__item {
+    flex-grow: 0;
+    transition: flex-grow 0.25s ease-in;
+    overflow: hidden;
+    background-color: #f6f5f7;
+  }
+  .accordian__item.active {
+    flex-grow: 1;
+  }
+  .accordian__heading {
+    font-size: 1.8rem;
+    line-height: 0.75;
+    font-size: 0.875rem;
+    padding: 1rem;
+    background-color: #000000;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+  }
+  .accordian__body {
+    padding: 1rem;
+    color: #f6f5f7;
+  }

@@ -3,3 +3,10 @@ $(document).ready(function () {
         $('#sidebar').toggleClass('active');
     });
 });
+
+
+
+
+$('.accordian__item').on('click', function() {
+	$(this).addClass('active').siblings().removeClass('active');
+});
