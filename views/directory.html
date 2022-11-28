@@ -1,13 +1,73 @@
-<!doctype html>
-<html>
+<!DOCTYPE html>
+<html lang="en" >
 <head>
-    <title>MyMark_Main</title>
-    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0">
-    <meta charset="utf-8">
-    <link rel="stylesheet" type="text/css" href="directory.css">
+  <meta charset="UTF-8">
+  <title>CodePen - File Tree</title>
+  <link rel="stylesheet" href="directory.css">
 </head>
 <body>
-    <div id="container"></div>
-    <script src="login.js"></script>
+
+    <div class="wrapper">
+        <nav id="sidebar">
+            <div class="sidebar-header">
+                <h3>My Bookmark</h3>
+            </div>
+
+            <ul class="list-unstyled components">
+                <li>
+                    <a href="#">Home</a>
+                </li>
+                <li class="active">
+                    <a href="#pageSubmenu" data-toggle="collapse" aria-expanded="false">Bookmark</a>
+                    <ul class="collapse list-unstyled" id="pageSubmenu">
+                        <li><a href="#">Add Bookmark</a></li>
+                        <li><a href="#">Bookrmark Collection</a></li>
+                    </ul>
+                </li>
+                <li class="active">
+                    <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false">User</a>
+                    <ul class="collapse list-unstyled" id="homeSubmenu">
+                        <li><a href="#">User Information</a></li>
+                        <li><a href="#">Manage Password</a></li>
+                    </ul>
+                </li>
+            </ul>
+
+            <ul class="list-unstyled CTAs">
+                <li><a href="https://bootstrapious.com/tutorial/files/sidebar.zip" class="download">Show Bookmark Directory</a></li>
+                <li><a href="https://bootstrapious.com/p/bootstrap-sidebar" class="article">Back to article</a></li>
+            </ul>
+        </nav>
+
+        <div id="content">
+            <!--
+                여기 html
+            -->
+
+            <div id="container">
+            </div>
+
+
+
+            <div id="register"></div>
+
+
+
+
+            <div id="browser">
+                <h5 class="browserLink">https://wikidocs.net/</h5>
+                <iframe src="https://wikidocs.net/"></iframe>
+            </div>
+
+
+            
+
+        </div>
+    </div>
+
+
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/react/15.6.1/react.min.js'></script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/react/15.6.1/react-dom.min.js'></script><script  src="directory.js"></script>
+
 </body>
 </html>
