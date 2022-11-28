@@ -49,13 +49,34 @@
 
 
 
-            <div id="register"></div>
+            <div id="register">
+                <div class="registerTitle">
+                    <h4>제목</h4>
+                    <input placeholder="북마크 제목을 입력하세요"></input>
+                </div>
+                <div class="registerTitle">
+                    <h4>북마크 위치</h4>
+                    <input placeholder="북마크 위치를 입력하세요"></input>
+                </div>
+                <div class="registerTitle">
+                    <h4>대표 이미지</h4>
+                    <input placeholder="이미지 링크를 입력하세요"></input>
+                    <img src=""></img>
+                </div>
+                <div class="registerTitle">
+                    <h4>메모</h4>
+                    <textarea placeholder="메모를 입력하세요"></textarea>
+                </div>
+                <button>북마크 저장</button>
+        
+            </div>
 
 
 
 
             <div id="browser">
-                <h5 class="browserLink">https://wikidocs.net/</h5>
+                <h2 id="browserTitle" class="browserHeader">북마크 바로가기</h2>
+                <h5 id="browserLink" class="browserHeader">https://wikidocs.net/</h5>
                 <iframe src="https://wikidocs.net/"></iframe>
             </div>
 

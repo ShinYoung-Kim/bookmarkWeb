@@ -219,26 +219,34 @@ a.article, a.article:hover {
 }
 
 
-
-
 #browser{
   width: 30vw;
-  height:95vh;
-  padding-top: 5vh;
+  height:100vh;
+  overflow: hidden;
   float: right;
 }
 
-.browserLink{
+#browserTitle{
+  text-align: center;
+}
+
+#browserLink{
   border: 1px solid #31343F;
   background-color: #31343F;
   padding: 5px;
+}
+
+.browserHeader{
+  height: 2.5vh;
 }
 
 #register{
   width: 30vw;
   height:100vh;
   float: left;
-  background-color: #000000;
+  background-color: #212830;
+  border-left: 0.5px dotted #31343F;
+  border-right: 0.5px dotted #31343F;
 }
 
 #container{
@@ -258,5 +266,9 @@ a.article, a.article:hover {
 
 iframe{
   width: 100%;
-  height: 100%;
+  height: 90%;
+}
+
+body{
+  margin: 0px;
 }
