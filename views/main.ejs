@@ -1,0 +1,845 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <title>Main</title>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/latest/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/latest/css/bootstrap.min.css">
+    <style>
+        @import "https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700";
+
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background: #f6f5f7;
+}
+
+a, a:hover, a:focus {
+    color: inherit;
+    text-decoration: none;
+    transition: all 0.3s;
+}
+
+.navbar-btn {
+    box-shadow: none;
+    outline: none !important;
+    border: none;
+}
+
+.wrapper {
+    display: flex;
+    align-items: stretch;
+}
+
+#sidebar {
+    min-width: 250px;
+    max-width: 250px;
+    background: #000000;
+    color: #fff;
+    transition: all 0.3s;
+}
+
+#sidebar.active {
+    margin-left: -250px;
+}
+
+#sidebar .sidebar-header {
+    padding: 20px;
+    background: #212121;
+}
+
+#sidebar ul.components {
+    padding: 20px 0;
+    border-bottom: 1px solid #212121;
+}
+
+#sidebar ul p {
+    color: #fff;
+    padding: 10px;
+}
+
+#sidebar ul li a {
+    padding: 10px;
+    font-size: 1.1em;
+    display: block;
+}
+#sidebar ul li a:hover {
+    color: #000000;
+    background: #fff;
+}
+
+#sidebar ul li.active > a, a[aria-expanded="true"] {
+    color: #fff;
+    background: #212121;
+}
+
+#sidebarCollapse {
+    background-color: #212121;
+    display: table-cell;
+    margin-right: 30px;
+}
+
+
+a[data-toggle="collapse"] {
+    position: relative;
+}
+
+a[aria-expanded="false"]::before, a[aria-expanded="true"]::before {
+    content: '\e259';
+    display: block;
+    position: absolute;
+    right: 20px;
+    font-family: 'Glyphicons Halflings';
+    font-size: 0.6em;
+}
+a[aria-expanded="true"]::before {
+    content: '\e260';
+}
+
+ul ul a {
+    font-size: 0.9em !important;
+    padding-left: 30px !important;
+    background: #212121;
+}
+
+ul.CTAs {
+    padding: 20px;
+}
+
+ul.CTAs a {
+    text-align: center;
+    font-size: 0.9em !important;
+    display: block;
+    border-radius: 5px;
+    margin-bottom: 5px;
+}
+
+a.download {
+    background: #fff;
+    color: #000000;
+}
+
+a.article, a.article:hover {
+    background: #212121 !important;
+    color: #fff !important;
+}
+
+#content {
+    padding: 20px;
+    min-height: 100vh;
+    transition: all 0.3s;
+}
+
+@media (max-width: 768px) {
+    #sidebar {
+        margin-left: -250px;
+    }
+    #sidebar.active {
+        margin-left: 0;
+    }
+    #sidebarCollapse span {
+        display: none;
+    }
+}
+
+
+
+
+
+
+
+
+
+@import url('https://fonts.googleapis.com/css?family=Raleway:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i');
+
+/*----------------------------------------------------------
+GENERAL
+----------------------------------------------------------*/
+*{
+  margin:0;
+  padding:0;
+  font-family: 'Raleway', sans-serif;
+}
+
+html, body{
+  display:table;
+  height:100%;
+  width:100%;
+  color: #252a3b;
+}
+
+.btn {
+    background-color: #4885f4;
+    border-radius: 3px;
+    padding: 0 30px;
+    line-height: 37px;
+    font-size: 12px;
+    color: #fff;
+    font-weight: 600;
+    width: 160px;
+    box-shadow: 0px 17px 10px -10px rgba(81,117,214,0.4);
+}
+
+.tooltip .tooltip-inner{
+   font-size: 12px;
+}
+/*----------------------------------------
+CENTER CONTENT
+----------------------------------------*/
+.center-content {
+    display: table;
+    width: 100%;
+    height: 100%;
+    /*padding-left: 280px;*/
+  background-color: #f6f5f7;
+}
+
+/*----------------------------------------
+TOP BAR
+----------------------------------------*/
+.top-nav {
+    padding: 30px;
+    background-color: #fff;
+    display: table;
+  width: 100%;
+}
+
+.search {
+    display: inline-block;
+    -webkit-appearance: none;
+    appearance: none;
+    -moz-appearance: none;
+    -o-appearance: none;
+    border: none;
+    box-shadow: none;
+    background-image: url('data:image/svg+xml;utf8;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iaXNvLTg4NTktMSI/Pgo8IS0tIEdlbmVyYXRvcjogQWRvYmUgSWxsdXN0cmF0b3IgMTYuMC4wLCBTVkcgRXhwb3J0IFBsdWctSW4gLiBTVkcgVmVyc2lvbjogNi4wMCBCdWlsZCAwKSAgLS0+CjwhRE9DVFlQRSBzdmcgUFVCTElDICItLy9XM0MvL0RURCBTVkcgMS4xLy9FTiIgImh0dHA6Ly93d3cudzMub3JnL0dyYXBoaWNzL1NWRy8xLjEvRFREL3N2ZzExLmR0ZCI+CjxzdmcgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayIgdmVyc2lvbj0iMS4xIiBpZD0iQ2FwYV8xIiB4PSIwcHgiIHk9IjBweCIgd2lkdGg9IjE2cHgiIGhlaWdodD0iMTZweCIgdmlld0JveD0iMCAwIDYyNi41MiA2MjYuNTIiIHN0eWxlPSJlbmFibGUtYmFja2dyb3VuZDpuZXcgMCAwIDYyNi41MiA2MjYuNTI7IiB4bWw6c3BhY2U9InByZXNlcnZlIj4KPGc+Cgk8cGF0aCBkPSJNNjExLjUzMSw1ODEuNDk0TDQ3MC45NzQsNDQwLjkzN2M0MS41NzMtNDYuOTAyLDY3LjYxNC0xMDcuODUsNjcuNjE0LTE3NS4yOTJDNTM4LjU2NiwxMTkuMTU1LDQxOS4zODksMCwyNzIuODk5LDAgICBDMTI2LjQzMSwwLDcuMjU0LDExOS4xNTUsNy4yNTQsMjY1LjY0NWMwLDE0Ni40NDcsMTE5LjE3NywyNjUuNjAyLDI2NS42NDUsMjY1LjYwMmM2MC4wNDIsMCwxMTQuODE5LTIwLjc1NSwxNTkuMzctNTQuNDMyICAgbDE0MS45MzgsMTQxLjk4YzUuMTc4LDUuMTU2LDExLjkwOCw3LjcyNCwxOC42NjEsNy43MjRzMTMuNTA2LTIuNTY3LDE4LjY2Mi03LjcyNCAgIEM2MjEuODQzLDYwOC41MDUsNjIxLjg0Myw1OTEuODA3LDYxMS41MzEsNTgxLjQ5NHogTTYwLjAyNSwyNjUuNjQ1YzAtMTE3LjM2NCw5NS41MS0yMTIuODk2LDIxMi44OTYtMjEyLjg5NiAgIGMxMTcuNDA4LDAsMjEyLjg5Niw5NS41MDksMjEyLjg5NiwyMTIuODk2cy05NS40ODgsMjEyLjgzMi0yMTIuODk2LDIxMi44MzJDMTU1LjUzNSw0NzguNDc3LDYwLjAyNSwzODMuMDMxLDYwLjAyNSwyNjUuNjQ1eiIgZmlsbD0iI2IzYjRiYSIvPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+Cjwvc3ZnPgo=');
+  height: 45px;
+  padding: 8px 15px 8px 38px;
+  background-repeat: no-repeat;
+  background-position-x: 12px;
+  background-position-y: center;
+  background-size: 15px;
+  background-color: #f9fafe;
+  font-size: 13px;
+  font-weight: 500;
+  transition: all 0.3s;
+-webkit-transition: all 0.3s;
+-moz-transition: all 0.3s;
+-ms-transition: all 0.3s;
+-o-transition: all 0.3s;
+    
+}
+.search:focus {
+    padding-left: 18px;
+    background-position-x: -50px;
+}
+.search--width {
+    width: 75%;
+}
+
+.user-box {
+    display: table-cell;
+    height: 100%;
+    width: auto;
+    text-align: right;
+}
+
+.user__img {
+    width: 50px;
+    height: 50px;
+    display: inline-block;
+    vertical-align: middle;
+    border-radius: 50%;
+    background-image: url(https://cdn-icons-png.flaticon.com/512/149/149071.png);
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+  box-shadow: 0px 6px 8px -1px rgba(0, 0, 0, 0.2);
+    
+}
+
+.bell-not {
+    position: relative;
+    margin-right: 45px;
+    width: 21px;
+    height: 21px;
+    vertical-align: middle;
+    display: inline-block;
+    background-image: url('data:image/svg+xml;utf8;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iaXNvLTg4NTktMSI/Pgo8IS0tIEdlbmVyYXRvcjogQWRvYmUgSWxsdXN0cmF0b3IgMTkuMC4wLCBTVkcgRXhwb3J0IFBsdWctSW4gLiBTVkcgVmVyc2lvbjogNi4wMCBCdWlsZCAwKSAgLS0+CjxzdmcgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayIgdmVyc2lvbj0iMS4xIiBpZD0iQ2FwYV8xIiB4PSIwcHgiIHk9IjBweCIgdmlld0JveD0iMCAwIDUxMiA1MTIiIHN0eWxlPSJlbmFibGUtYmFja2dyb3VuZDpuZXcgMCAwIDUxMiA1MTI7IiB4bWw6c3BhY2U9InByZXNlcnZlIiB3aWR0aD0iMjRweCIgaGVpZ2h0PSIyNHB4Ij4KPGc+Cgk8Zz4KCQk8cGF0aCBkPSJNNDY3LjgxOSw0MzEuODUxbC0zNi42NTEtNjEuMDU2Yy0xNi44OTYtMjguMTgxLTI1LjgzNS02MC40MzctMjUuODM1LTkzLjMxMlYyMjQgICAgYzAtODIuMzI1LTY3LjAwOC0xNDkuMzMzLTE0OS4zMzMtMTQ5LjMzM1MxMDYuNjY3LDE0MS42NzUsMTA2LjY2NywyMjR2NTMuNDgzYzAsMzIuODc1LTguOTM5LDY1LjEzMS0yNS44MzUsOTMuMzEyICAgIGwtMzYuNjUxLDYxLjA1NmMtMS45ODQsMy4yODUtMi4wMjcsNy40MDMtMC4xNDksMTAuNzMxYzEuODk5LDMuMzQ5LDUuNDYxLDUuNDE5LDkuMzAxLDUuNDE5aDQwNS4zMzMgICAgYzMuODQsMCw3LjQwMy0yLjA2OSw5LjMwMS01LjQxOUM0NjkuODQ1LDQzOS4yNTMsNDY5LjgwMyw0MzUuMTM2LDQ2Ny44MTksNDMxLjg1MXogTTcyLjE3MSw0MjYuNjY3bDI2Ljk0NC00NC45MDcgICAgQzExOC4wMTYsMzUwLjI3MiwxMjgsMzE0LjIxOSwxMjgsMjc3LjQ4M1YyMjRjMC03MC41OTIsNTcuNDA4LTEyOCwxMjgtMTI4czEyOCw1Ny40MDgsMTI4LDEyOHY1My40ODMgICAgYzAsMzYuNzM2LDkuOTg0LDcyLjc4OSwyOC44NjQsMTA0LjI3N2wyNi45NjUsNDQuOTA3SDcyLjE3MXoiIGZpbGw9IiNhNGE1YjAiLz4KCTwvZz4KPC9nPgo8Zz4KCTxnPgoJCTxwYXRoIGQ9Ik0yNTYsMGMtMjMuNTMxLDAtNDIuNjY3LDE5LjEzNi00Mi42NjcsNDIuNjY3djQyLjY2N0MyMTMuMzMzLDkxLjIyMSwyMTguMTEyLDk2LDIyNCw5NnMxMC42NjctNC43NzksMTAuNjY3LTEwLjY2NyAgICBWNDIuNjY3YzAtMTEuNzc2LDkuNTU3LTIxLjMzMywyMS4zMzMtMjEuMzMzczIxLjMzMyw5LjU1NywyMS4zMzMsMjEuMzMzdjQyLjY2N0MyNzcuMzMzLDkxLjIyMSwyODIuMTEyLDk2LDI4OCw5NiAgICBzMTAuNjY3LTQuNzc5LDEwLjY2Ny0xMC42NjdWNDIuNjY3QzI5OC42NjcsMTkuMTM2LDI3OS41MzEsMCwyNTYsMHoiIGZpbGw9IiNhNGE1YjAiLz4KCTwvZz4KPC9nPgo8Zz4KCTxnPgoJCTxwYXRoIGQ9Ik0zMDIuMTY1LDQzMS45MzZjLTMuMDA4LTUuMDc3LTkuNTE1LTYuNzQxLTE0LjYxMy0zLjgxOWMtNS4wOTksMi45ODctNi44MDUsOS41MzYtMy44MTksMTQuNjEzICAgIGMyLjc3Myw0LjcxNSw0LjI4OCwxMC4zNjgsNC4yODgsMTUuOTM2YzAsMTcuNjQzLTE0LjM1NywzMi0zMiwzMmMtMTcuNjQzLDAtMzItMTQuMzU3LTMyLTMyYzAtNS41NjgsMS41MTUtMTEuMjIxLDQuMjg4LTE1LjkzNiAgICBjMi45NjUtNS4wOTksMS4yNTktMTEuNjI3LTMuODE5LTE0LjYxM2MtNS4xNDEtMi45MjMtMTEuNjI3LTEuMjU5LTE0LjYxMywzLjgxOWMtNC43MTUsOC4wNjQtNy4yMTEsMTcuMzAxLTcuMjExLDI2LjczMSAgICBDMjAyLjY2Nyw0ODguMDg1LDIyNi41ODEsNTEyLDI1Niw1MTJzNTMuMzMzLTIzLjkxNSw1My4zNzYtNTMuMzMzQzMwOS4zNzYsNDQ5LjIzNywzMDYuODgsNDQwLDMwMi4xNjUsNDMxLjkzNnoiIGZpbGw9IiNhNGE1YjAiLz4KCTwvZz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8L3N2Zz4K');
+    background-size: 21px;
+    background-repeat: no-repeat;
+}
+.bell-not:before{
+  content: '';
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background-color: #4885f4;
+  position: absolute;
+  right: 1px;
+  top: 2px;
+}
+
+/*----------------------------------------
+FILE
+----------------------------------------*/
+.row__title {
+    font-size: 22px;
+    font-weight: 600;
+    margin: 0;
+}
+
+.row__title-box {
+    padding-left: 30px;
+    margin-bottom: 40px;
+    margin-top: 40px;
+}
+.row--no-right{
+  margin-right: 0px;
+margin-left: -30px;
+}
+
+.files-cont {
+    max-width: 1200px;
+    margin: 0 auto;
+  padding: 0 50px;
+}
+
+.file {
+   cursor: pointer;
+    width: calc(25% - 30px);
+    border-radius: 10px;
+    background-color: #fff;
+    box-shadow: 0px 9px 10px -2px rgba(0,0,0,0.2);
+    float: left;
+    margin-left: 30px;
+    transition: all 0.3s;
+  -webkit-transition: all 0.3s;
+  -moz-transition: all 0.3s;
+  -ms-transition: all 0.3s;
+  -o-transition: all 0.3s;
+   margin-bottom: 30px;
+}
+
+.file:hover {
+    transform: translate(0,-4px);
+    box-shadow: 0px 17px 19px -2px rgba(0,0,0,0.2);
+}
+.file__img {
+    width: 100%;
+    height: 0;
+    padding-bottom: 80%;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    border-top-right-radius: 10px;
+    border-top-left-radius: 10px;
+}
+
+.file-1 .file__img {
+    background-image: url('https://images.pexels.com/photos/572487/pexels-photo-572487.jpeg?w=1260&h=750&auto=compress&cs=tinysrgb');
+}
+
+.file-2 .file__img {
+    background-image: url('https://images.pexels.com/photos/97069/pexels-photo-97069.jpeg?w=1260&h=750&auto=compress&cs=tinysrgb');
+}
+
+.file-3 .file__img {
+    background-image: url('https://images.pexels.com/photos/746683/pexels-photo-746683.jpeg?w=1260&h=750&auto=compress&cs=tinysrgb');
+}
+.file-4 .file__img {
+    background-image: url('https://images.pexels.com/photos/323705/pexels-photo-323705.jpeg?w=1260&h=750&auto=compress&cs=tinysrgb');
+}
+.file-5 .file__img {
+    background-image: url('https://images.pexels.com/photos/417213/pexels-photo-417213.jpeg?w=1260&h=750&auto=compress&cs=tinysrgb');
+}
+
+.file-6 .file__img {
+    background-image: url('https://images.pexels.com/photos/4988/beach-palms.jpg?w=1260&h=750&auto=compress&cs=tinysrgb');
+}
+
+.file-7 .file__img {
+    background-image: url('https://images.pexels.com/photos/259585/pexels-photo-259585.jpeg?w=1260&h=750&auto=compress&cs=tinysrgb');
+}
+
+.file-8 .file__img {
+    background-image: url('https://images.pexels.com/photos/533937/pexels-photo-533937.jpeg?w=1260&h=750&auto=compress&cs=tinysrgb');
+}
+
+.file-9 .file__img {
+    background-image: url('https://images.pexels.com/photos/13966/pexels-photo-13966.jpeg?w=1260&h=750&auto=compress&cs=tinysrgb');
+}
+
+.file-10 .file__img {
+    background-image: url('https://images.pexels.com/photos/136419/pexels-photo-136419.jpeg?w=1260&h=750&auto=compress&cs=tinysrgb');
+}
+
+.file-11 .file__img {
+    background-image: url('https://images.pexels.com/photos/428353/pexels-photo-428353.jpeg?w=1260&h=750&auto=compress&cs=tinysrgb');
+}
+
+.file-12 .file__img {
+    background-image: url('https://images.pexels.com/photos/347141/pexels-photo-347141.jpeg?w=1260&h=750&auto=compress&cs=tinysrgb');
+}
+
+.file__title {
+  font-size: 16px;
+  margin-bottom: 6px;
+  margin-top: 0px;
+  font-weight: 600;
+  color: #252a3b;
+   text-overflow: ellipsis;
+   white-space: nowrap;
+   overflow: hidden;
+   line-height: 25px;
+}
+
+.file__title:before{
+  width: 16px;
+  position: absolute;
+  left: 14px;
+  top: 22px;
+}
+
+.image .file__title:before{
+  content: url('data:image/svg+xml;utf8;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iaXNvLTg4NTktMSI/Pgo8IS0tIEdlbmVyYXRvcjogQWRvYmUgSWxsdXN0cmF0b3IgMTguMC4wLCBTVkcgRXhwb3J0IFBsdWctSW4gLiBTVkcgVmVyc2lvbjogNi4wMCBCdWlsZCAwKSAgLS0+CjwhRE9DVFlQRSBzdmcgUFVCTElDICItLy9XM0MvL0RURCBTVkcgMS4xLy9FTiIgImh0dHA6Ly93d3cudzMub3JnL0dyYXBoaWNzL1NWRy8xLjEvRFREL3N2ZzExLmR0ZCI+CjxzdmcgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayIgdmVyc2lvbj0iMS4xIiBpZD0iQ2FwYV8xIiB4PSIwcHgiIHk9IjBweCIgdmlld0JveD0iMCAwIDMxNS41OCAzMTUuNTgiIHN0eWxlPSJlbmFibGUtYmFja2dyb3VuZDpuZXcgMCAwIDMxNS41OCAzMTUuNTg7IiB4bWw6c3BhY2U9InByZXNlcnZlIiB3aWR0aD0iMTZweCIgaGVpZ2h0PSIxNnB4Ij4KPGc+Cgk8cGF0aCBkPSJNMzEwLjU4LDMzLjMzMUg1Yy0yLjc2MSwwLTUsMi4yMzgtNSw1djIzOC45MThjMCwyLjc2MiwyLjIzOSw1LDUsNWgzMDUuNThjMi43NjMsMCw1LTIuMjM4LDUtNVYzOC4zMzEgICBDMzE1LjU4LDM1LjU2OSwzMTMuMzQzLDMzLjMzMSwzMTAuNTgsMzMuMzMxeiBNMjg1LjU4LDI0Mi4zODZsLTY4Ljc2Ni03MS4yMTRjLTAuNzYtMC43ODUtMi4wMDMtMC44MzYtMi44MjMtMC4xMTRsLTQ3LjY5NSw0MS45NzkgICBsLTYwLjk2Mi03NS4wNjFjLTAuMzk2LTAuNDktMC45NzUtMC43Ny0xLjYzLTAuNzU2Yy0wLjYzMSwwLjAxMy0xLjIyLDAuMzE2LTEuNTk3LDAuODIyTDMwLDIzNC43OTdWNjMuMzMxaDI1NS41OFYyNDIuMzg2eiIgZmlsbD0iIzQ4ODVmNCIvPgoJPHBhdGggZD0iTTIxMC4wNTksMTM1LjU1NWMxMy41MzgsMCwyNC41MjktMTAuOTgyLDI0LjUyOS0yNC41MzFjMC0xMy41NDUtMTAuOTkxLTI0LjUzMy0yNC41MjktMjQuNTMzICAgYy0xMy41NDksMC0yNC41MjgsMTAuOTg4LTI0LjUyOCwyNC41MzNDMTg1LjUzMSwxMjQuNTcyLDE5Ni41MTEsMTM1LjU1NSwyMTAuMDU5LDEzNS41NTV6IiBmaWxsPSIjNDg4NWY0Ii8+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPC9zdmc+Cg==');
+}
+
+.directory .file__title:before{
+   content: url('data:image/svg+xml;utf8;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iaXNvLTg4NTktMSI/Pgo8IS0tIEdlbmVyYXRvcjogQWRvYmUgSWxsdXN0cmF0b3IgMTYuMC4wLCBTVkcgRXhwb3J0IFBsdWctSW4gLiBTVkcgVmVyc2lvbjogNi4wMCBCdWlsZCAwKSAgLS0+CjwhRE9DVFlQRSBzdmcgUFVCTElDICItLy9XM0MvL0RURCBTVkcgMS4xLy9FTiIgImh0dHA6Ly93d3cudzMub3JnL0dyYXBoaWNzL1NWRy8xLjEvRFREL3N2ZzExLmR0ZCI+CjxzdmcgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayIgdmVyc2lvbj0iMS4xIiBpZD0iQ2FwYV8xIiB4PSIwcHgiIHk9IjBweCIgd2lkdGg9IjE2cHgiIGhlaWdodD0iMTZweCIgdmlld0JveD0iMCAwIDQ3NS4wODIgNDc1LjA4MiIgc3R5bGU9ImVuYWJsZS1iYWNrZ3JvdW5kOm5ldyAwIDAgNDc1LjA4MiA0NzUuMDgyOyIgeG1sOnNwYWNlPSJwcmVzZXJ2ZSI+CjxnPgoJPHBhdGggZD0iTTQ1Ni4yMzksMTI4LjQ3NWMtMTIuNTYtMTIuNTYyLTI3LjU5Ny0xOC44NDItNDUuMTEtMTguODQyaC0xOTEuODZ2LTkuMTM2YzAtMTcuNTExLTYuMjgzLTMyLjU0OC0xOC44NDMtNDUuMTA3ICAgYy0xMi41NjItMTIuNTYyLTI3LjYtMTguODQ2LTQ1LjExMS0xOC44NDZINjMuOTUzYy0xNy41MTUsMC0zMi41NTEsNi4yODMtNDUuMTExLDE4Ljg0NkM2LjI4LDY3Ljk0OSwwLDgyLjk4NiwwLDEwMC40OTd2Mjc0LjA4OCAgIGMwLDE3LjUwOCw2LjI4LDMyLjU0NSwxOC44NDIsNDUuMTA0YzEyLjU2MiwxMi41NjUsMjcuNiwxOC44NDksNDUuMTExLDE4Ljg0OWgzNDcuMTc1YzE3LjUxNCwwLDMyLjU1MS02LjI4Myw0NS4xMS0xOC44NDkgICBjMTIuNTY2LTEyLjU2LDE4Ljg0My0yNy41OTcsMTguODQzLTQ1LjEwNFYxNzMuNTlDNDc1LjA4MiwxNTYuMDc4LDQ2OC44MDUsMTQxLjA0Miw0NTYuMjM5LDEyOC40NzV6IiBmaWxsPSIjZmZjYTQ1Ii8+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPC9zdmc+Cg==');
+}
+
+.music .file__title:before{
+   content: url('data:image/svg+xml;utf8;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iaXNvLTg4NTktMSI/Pgo8IS0tIEdlbmVyYXRvcjogQWRvYmUgSWxsdXN0cmF0b3IgMTkuMC4wLCBTVkcgRXhwb3J0IFBsdWctSW4gLiBTVkcgVmVyc2lvbjogNi4wMCBCdWlsZCAwKSAgLS0+CjxzdmcgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayIgdmVyc2lvbj0iMS4xIiBpZD0iQ2FwYV8xIiB4PSIwcHgiIHk9IjBweCIgdmlld0JveD0iMCAwIDU1IDU1IiBzdHlsZT0iZW5hYmxlLWJhY2tncm91bmQ6bmV3IDAgMCA1NSA1NTsiIHhtbDpzcGFjZT0icHJlc2VydmUiIHdpZHRoPSIxNnB4IiBoZWlnaHQ9IjE2cHgiPgo8cGF0aCBkPSJNNTIuNjYsMC4yNDljLTAuMjE2LTAuMTg5LTAuNTAxLTAuMjc1LTAuNzg5LTAuMjQxbC0zMSw0LjAxMUMyMC4zNzMsNC4wODQsMjAsNC41MDcsMjAsNS4wMXY2LjAxN3Y0LjIxMnYyNS4zODQgIEMxOC4xNzQsMzguNDI4LDE1LjI3MywzNywxMiwzN2MtNS41MTQsMC0xMCw0LjAzNy0xMCw5czQuNDg2LDksMTAsOXMxMC00LjAzNywxMC05YzAtMC4yMzItMC4wMTktMC40Ni0wLjAzOS0wLjY4NyAgQzIxLjk3NCw0NS4yNDgsMjIsNDUuMTg5LDIyLDQ1LjEyMVYxNi4xMThsMjktMy43NTN2MTguMjU3QzQ5LjE3NCwyOC40MjgsNDYuMjczLDI3LDQzLDI3Yy01LjUxNCwwLTEwLDQuMDM3LTEwLDlzNC40ODYsOSwxMCw5ICBjNS40NjQsMCw5LjkxMy0zLjk2Niw5Ljk5My04Ljg2N2MwLTAuMDEzLDAuMDA3LTAuMDI0LDAuMDA3LTAuMDM3VjExLjIyN1Y3LjAxNlYxQzUzLDAuNzEyLDUyLjg3NiwwLjQzOCw1Mi42NiwwLjI0OXoiIGZpbGw9IiNmZjUwNDEiLz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPC9zdmc+Cg==')
+}
+
+.movie .file__title:before{
+   content: url('data:image/svg+xml;utf8;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iaXNvLTg4NTktMSI/Pgo8IS0tIEdlbmVyYXRvcjogQWRvYmUgSWxsdXN0cmF0b3IgMTYuMC4wLCBTVkcgRXhwb3J0IFBsdWctSW4gLiBTVkcgVmVyc2lvbjogNi4wMCBCdWlsZCAwKSAgLS0+CjwhRE9DVFlQRSBzdmcgUFVCTElDICItLy9XM0MvL0RURCBTVkcgMS4xLy9FTiIgImh0dHA6Ly93d3cudzMub3JnL0dyYXBoaWNzL1NWRy8xLjEvRFREL3N2ZzExLmR0ZCI+CjxzdmcgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayIgdmVyc2lvbj0iMS4xIiBpZD0iQ2FwYV8xIiB4PSIwcHgiIHk9IjBweCIgd2lkdGg9IjE2cHgiIGhlaWdodD0iMTZweCIgdmlld0JveD0iMCAwIDkwIDkwIiBzdHlsZT0iZW5hYmxlLWJhY2tncm91bmQ6bmV3IDAgMCA5MCA5MDsiIHhtbDpzcGFjZT0icHJlc2VydmUiPgo8Zz4KCTxwYXRoIGlkPSJZb3VUdWJlX194MjhfYWx0X3gyOV8iIGQ9Ik05MCwyNi45NThDOTAsMTkuNTI1LDgzLjk3OSwxMy41LDc2LjU1LDEzLjVoLTYzLjFDNi4wMjEsMTMuNSwwLDE5LjUyNSwwLDI2Ljk1OHYzNi4wODQgICBDMCw3MC40NzUsNi4wMjEsNzYuNSwxMy40NSw3Ni41aDYzLjFDODMuOTc5LDc2LjUsOTAsNzAuNDc1LDkwLDYzLjA0MlYyNi45NTh6IE0zNiw2MC4yMjVWMjYuMzNsMjUuNzAyLDE2Ljk0N0wzNiw2MC4yMjV6IiBmaWxsPSIjOTk3MmZlIi8+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPC9zdmc+Cg==')
+}
+
+
+.file__date {
+    font-size: 13px;
+    color: #8087a2;
+    font-weight: 500;
+}
+.file__info {
+    padding: 20px 20px 20px 45px;
+  position:relative;
+}
+
+@media screen and (max-width:1440px){
+   .menu {
+    width: 88px;
+    padding: 50px 15px 0 15px;
+   }
+   .site__title {
+    font-size: 18px;
+   }
+   .btn--small {
+    padding: 0 5px;
+    width: auto;
+   }
+   .menu__list {
+      margin-top: 35px;
+   }
+   .menu__item {
+    padding: 15px 0px;
+    text-align: center;
+   }
+   .menu__icon {
+    margin: 0;
+    width: 23px;
+   }
+   .menu__name {
+    display: none;
+   }
+   .starage-pro {
+    display: none;
+   }
+   .center-content {
+    padding-left: 88px;
+   }
+}
+
+@media screen and (max-width:1024px){
+   
+}
+
+@media screen and (max-width:767px){
+  .menu{
+      display: none;
+   }
+   .center-content {
+    padding-left: 0;
+   }
+   .user-box {
+    display: none;
+   }
+   .search--width {
+    width: 100%;
+   height: 40px;
+   font-size: 11px;
+   }
+   .top-nav {
+    padding: 15px;
+   }
+   .file {
+    margin-left: 15px;
+    margin-bottom: 15px;
+    width: calc(25% - 15px);
+   }
+   .file__info {
+    padding: 12px 12px 12px 35px;
+   }
+   .file__date {
+      font-size: 12px;
+   }
+   .file__title {
+    font-size: 13px;
+    margin-bottom: 0;
+    line-height: 20px;
+}
+   .file__title:before {
+    left: 10px;
+    top: 14px;
+   }
+
+   .row--no-right {
+    margin: 0 0px 0 -15px;
+   }
+
+   .files-cont {
+    padding: 0 20px;
+   }
+   .row__title-box {
+    padding-left: 15px;
+    margin-bottom: 30px;
+    margin-top: 30px;
+   }
+   .row__title {
+      font-size: 20px;
+   }   
+}
+
+@media screen and (max-width:640px){
+ .file {
+    margin-left: 15px;
+    margin-bottom: 15px;
+    width: calc(33.3% - 15px);
+   }
+  .file__date {
+      font-size: 11px;
+   }
+   .file__title {
+    font-size: 12px;
+    margin-bottom: 0;
+    line-height: 20px;
+}
+   .row__title {
+      font-size: 18px;
+   }
+    .file--last {
+    display: none;
+   }
+   .row__title-box {
+    padding-left: 15px;
+    margin-bottom: 20px;
+    margin-top: 20px;
+   }
+}
+
+
+
+@media screen and (max-width:480px){
+ .file {
+    margin-left: 15px;
+    margin-bottom: 15px;
+    width: calc(50% - 15px);
+   }
+   .file--last {
+      display: block;
+   }
+}
+
+@media screen and (max-width:360px){
+ .file {
+    margin-left: 0;
+    margin-bottom: 20px;
+    width: 100%;
+   }
+   .row--no-right{
+      margin: 0;
+   }
+  .row__title-box {
+         padding-left: 0;
+   }
+   .row__title {
+      font-size: 16px;
+   }
+}
+
+
+
+
+
+
+
+    </style>
+</head>
+
+<body>
+
+    <div class="wrapper">
+        <nav id="sidebar">
+            <div class="sidebar-header">
+                <h3>My Bookmark</h3>
+            </div>
+
+            <ul class="list-unstyled components">
+                <li>
+                    <a href="#">Home</a>
+                </li>
+                <li class="active">
+                    <a href="#pageSubmenu" data-toggle="collapse" aria-expanded="false">Bookmark</a>
+                    <ul class="collapse list-unstyled" id="pageSubmenu">
+                        <li><a href="/directory">Show Bookmark</a></li>
+                    </form>
+                        <li><a href="#">Bookrmark Collection</a></li>
+                    </ul>
+                </li>
+                <li class="active">
+                    <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false">User</a>
+                    <ul class="collapse list-unstyled" id="homeSubmenu">
+                        <li><a href="#">User Information</a></li>
+                        <li><a href="#">Manage Password</a></li>
+                    </ul>
+                </li>
+            </ul>
+
+            <ul class="list-unstyled CTAs">
+                <li><a href="https://bootstrapious.com/tutorial/files/sidebar.zip" class="download">Show Bookmark
+                        Directory</a></li>
+                <li><a href="https://bootstrapious.com/p/bootstrap-sidebar" class="article">Back to article</a></li>
+            </ul>
+        </nav>
+
+        <div class="center-content">
+        <div id="content">
+
+            
+
+            <!--
+                    여기 html
+                -->
+
+
+
+            
+            
+                <header class="top-nav">
+
+                   
+
+                        <button type="button" id="sidebarCollapse" class="btn btn-info navbar-btn">
+                            <i class="glyphicon glyphicon-align-left"></i>
+                            <span>Sidebar</span>
+                        </button>
+                    <input class="search search--width" type="search" placeholder="Search in the drive">
+                    <div class="user-box">
+                        <h4 class="user-id"><%= userName %></h4>
+                        <a href="#" class="user__img" data-toggle="tooltip" data-placement="bottom"
+                            title="My profile"></a>
+                    
+                    </div>
+                </header>
+
+
+
+                <div class="files-cont">
+                    <div class="row row--no-right">
+                        <div class="row__title-box">
+                            <h2 class="row__title">Quick access</h2>
+                        </div>
+                    </div>
+                    <div class="row row--no-right">
+
+                        <div class="file directory file-1 first--file">
+                            <div class="file__img"></div>
+                            <div class="file__info">
+                                <h2 class="file__title">
+                                    Design resources
+                                </h2>
+                                <span class="file__date">28/08/2017</span>
+                            </div>
+                        </div>
+
+                        <div class="file image file-2">
+                            <div class="file__img"></div>
+                            <div class="file__info">
+                                <h2 class="file__title">
+                                    College Farwell
+                                </h2>
+                                <span class="file__date">28/08/2017</span>
+                            </div>
+                        </div>
+
+                        <div class="file music file-3">
+                            <div class="file__img"></div>
+                            <div class="file__info">
+                                <h2 class="file__title">
+                                    Mozart
+                                </h2>
+                                <span class="file__date">28/08/2017</span>
+                            </div>
+                        </div>
+
+                        <div class="file movie file-4 file--last">
+                            <div class="file__img"></div>
+                            <div class="file__info">
+                                <h2 class="file__title">
+                                    Short Film
+                                </h2>
+                                <span class="file__date">03/10/2016</span>
+                            </div>
+                        </div>
+
+                    </div>
+                    <!-- recenti-->
+                    <div class="row row--no-right">
+                        <div class="row__title-box">
+                            <h2 class="row__title">Recent</h2>
+                        </div>
+                    </div>
+
+                    <div class="row row--no-right">
+
+                        <div class="file image file-5">
+                            <div class="file__img"></div>
+                            <div class="file__info">
+                                <h2 class="file__title">
+                                    Design resources
+                                </h2>
+                                <span class="file__date">28/08/2017</span>
+                            </div>
+                        </div>
+
+                        <div class="file image file-6">
+                            <div class="file__img"></div>
+                            <div class="file__info">
+                                <h2 class="file__title">
+                                    College Farwell
+                                </h2>
+                                <span class="file__date">28/08/2017</span>
+                            </div>
+                        </div>
+
+                        <div class="file music file-7">
+                            <div class="file__img"></div>
+                            <div class="file__info">
+                                <h2 class="file__title">
+                                    Mozart
+                                </h2>
+                                <span class="file__date">28/08/2017</span>
+                            </div>
+                        </div>
+
+                        <div class="file music file-8">
+                            <div class="file__img"></div>
+                            <div class="file__info">
+                                <h2 class="file__title">
+                                    Short Film
+                                </h2>
+                                <span class="file__date">03/10/2016</span>
+                            </div>
+                        </div>
+
+                        <div class="file movie file-8">
+                            <div class="file__img"></div>
+                            <div class="file__info">
+                                <h2 class="file__title">
+                                    Short Film
+                                </h2>
+                                <span class="file__date">03/10/2016</span>
+                            </div>
+                        </div>
+
+                        <div class="file directory file-9">
+                            <div class="file__img"></div>
+                            <div class="file__info">
+                                <h2 class="file__title">
+                                    Random Files
+                                </h2>
+                                <span class="file__date">03/10/2016</span>
+                            </div>
+                        </div>
+
+                        <div class="file image file-10">
+                            <div class="file__img"></div>
+                            <div class="file__info">
+                                <h2 class="file__title">
+                                    City images
+                                </h2>
+                                <span class="file__date">03/10/2016</span>
+                            </div>
+                        </div>
+
+                        <div class="file image file-11">
+                            <div class="file__img"></div>
+                            <div class="file__info">
+                                <h2 class="file__title">
+                                    Beach
+                                </h2>
+                                <span class="file__date">03/10/2016</span>
+                            </div>
+                        </div>
+
+                        <div class="file music file-12">
+                            <div class="file__img"></div>
+                            <div class="file__info">
+                                <h2 class="file__title">
+                                    Travel
+                                </h2>
+                                <span class="file__date">03/10/2016</span>
+                            </div>
+                        </div>
+
+                    </div>
+
+
+
+                </div>
+            </div>
+
+
+
+
+
+
+
+
+
+        </div>
+
+        <script src="https://code.jquery.com/jquery-latest.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/latest/js/bootstrap.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/masonry-layout@4.2.2/dist/masonry.pkgd.min.js"
+            integrity="sha384-GNFwBvfVxBkLMJpYMOABq3c+d3KnQxudP/mGPkzpZSTYykLBNsZEnG2D9G/X/+7D" crossorigin="anonymous"
+            async></script>
+        <script src="https://netdna.bootstrapcdn.com/bootstrap/latest/js/bootstrap.min.js"></script>
+
+        <script type="text/javascript">
+        $(document).ready(function () {
+            $('#sidebarCollapse').on('click', function () {
+                $('#sidebar').toggleClass('active');
+            });
+        });
+        </script>
+</body>
+
+</html>

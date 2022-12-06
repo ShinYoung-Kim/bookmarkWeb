@@ -19,11 +19,11 @@ function connectDB() {
     var mongoURL = 'mongodb://localhost:27017/local';
 
     mongoClient.connect(mongoURL, (err, db) => {
-        if(err) {
+        if (err) {
             console.log('Error Occured');
             return;
         }
-        
+
         console.log('DB 할당 성공');
         database = db.db('bookmarkWeb');
     });
@@ -39,46 +39,46 @@ var authUser = (db, email, password, callback) => {
         password: password
     }).toArray((err, docs) => {
 
-        if(err) {
+        if (err) {
             console.log('authuser error');
             callback(err, null);
         }
 
-        if(docs.length > 0){
+        if (docs.length > 0) {
             console.log('일치하는 유저 존재');
             callback(null, docs);
         }
-        else{
+        else {
             console.log('일치하는 유저 X');
             callback(null, null);
         }
     });
 }
 
-var addUser = function(db, email, password, name, callback) {
-    console.log('addUser() : ' + email +", " + password + ', ' + name);
+var addUser = function (db, email, password, name, callback) {
+    console.log('addUser() : ' + email + ", " + password + ', ' + name);
 
     var users = db.collection('users');
 
     var directories = db.collection('directories');
 
-        directories.insertMany([{
-            title: name,
-            location: ".",
-            date: new Date()
-        }], (err, result) => {
-            console.log('파일 추가');
-            console.log(result);
-        });
+    directories.insertMany([{
+        title: name,
+        location: ".",
+        date: new Date()
+    }], (err, result) => {
+        console.log('파일 추가');
+        console.log(result);
+    });
 
     users.insertMany([{
         email: email,
         password: password,
         name: name,
         image: 'https://cdn-icons-png.flaticon.com/512/149/149071.png',
-        fileTree: []
+        fileTree: [{ "type": "directory", "name": name, "contents": [] }]
     }], (err, result) => {
-        if(err) {
+        if (err) {
             callback(err, null);
             return;
         }
@@ -95,15 +95,15 @@ var getUser = (db, email, callback) => {
 
     var users = db.collection('users');
 
-    users.find({email: email}).toArray((err, docs) => {
-        if(err) {
+    users.find({ email: email }).toArray((err, docs) => {
+        if (err) {
             callback(err, null);
         }
 
-        if(docs.length > 0){
+        if (docs.length > 0) {
             callback(null, docs);
         }
-        else{
+        else {
             callback(null, null);
         }
     });
@@ -131,20 +131,20 @@ var deleteUser = function (db, email, callback) {
             email: email
         },
         (err, obj) => {
-            if(err) {
+            if (err) {
                 callback(err, null);
             }
 
-            if(obj.result.n > 0){
+            if (obj.result.n > 0) {
                 callback(null, obj);
-                console.log(obj.result.n +  ' document deleted!');
+                console.log(obj.result.n + ' document deleted!');
             }
-            else{
+            else {
                 callback(null, null);
                 console.log('0 document deleted!');
             }
 
-            
+
         }
     );
 }
@@ -165,22 +165,22 @@ app.use(session({
     resave: true,
     saveUninitialized: true
 }));
-app.use(bodyParser.urlencoded({extended:true}));
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use('/public', static(path.join(__dirname, 'public')));
 
 app.get("/main", (req, res) => {
     var name;
     getUser(database, email, (err, docs) => {
-        if(docs){
+        if (docs) {
             name = docs[0].name
         }
     });
-    var content = {userName : name};
+    var content = { userName: name };
     res.render('/views/main', content);
     //res.sendFile(__dirname + "/views/main.html")
 }
-    
+
 );
 
 app.get("/login", (req, res) =>
@@ -191,24 +191,32 @@ app.get("/", (req, res) =>
     res.sendFile(__dirname + "/public/login.html")
 );
 
+
+
 app.get("/directory", (req, res) => {
-    if(database) {
+    if (database) {
         name = req.session.name;
         email = req.session.email;
         getUser(database, email, (err, docs) => {
-            if(docs){
+            if (docs) {
                 console.log(docs[0].fileTree);
                 //res.render('directory.ejs', {filetree: docs[0].fileTree});
-                res.render('directory.ejs', {name : docs[0].name, content : ""});
+                res.render('directory.ejs', { browserLink: "https://wikidocs.net/", browserFrame: "https://wikidocs.net/", content: docs[0].fileTree });
             }
         });
     }
-    
-} 
+
+}
 );
 
 app.get("/addDirectory", (req, res) => {
-    res.render('addDirectory.ejs', {name: req.session.name, content: ""});
+
+    getUser(database, email, (err, docs) => {
+        if (docs) {
+            res.render('addDirectory.ejs', { content: docs[0].fileTree });
+        }
+    });
+
 })
 
 app.get("/addFile", (req, res) => {
@@ -219,6 +227,7 @@ router.post('/addFile', (request, response) => {
     console.log('# POST /addFile');
 
     var email = request.session.email;
+    console.log("email : " + email);
 
     var body = request.body;
     console.log(body);
@@ -231,9 +240,10 @@ router.post('/addFile', (request, response) => {
 
     //if (title == null)
 
-    if(database) {
+    if (database) {
         var users = database.collection('users');
         var files = database.collection('files');
+
 
         files.insertMany([{
             title: title,
@@ -247,83 +257,79 @@ router.post('/addFile', (request, response) => {
             console.log(result);
         });
 
-        getUser(database, email, (err, docs) => {
-            if(docs){
-                var fileTree = docs[0].fileTree;
-                var file = { "type": "file", "name": location + "/" + title };
-                console.log(file);
-                console.log(fileTree);
-                for (var fileOrDir in fileTree.contents) {
-                    console.log("file Or Dir");
-                    console.log(fileOrDir);
-                    if (fileOrDir.type == "directory" && fileOrDir.name == location) {
-                        fileOrDir.contents.push(file);
-                        database.users.update({email: email}, {$set: {fileTree: fileOrDir}});
-                        console.log("users fileTree");
-                        console.log(database.users.fileTree);
-                        break;
-                    }
+        app.get("/click/" + title, (req, res) => {
+            getUser(database, email, (err, docs) => {
+                if (docs) {
+                    res.render('directory.ejs', { browserLink: link, browserFrame: link, content: docs[0].fileTree });
                 }
-            }
-        });
-    }
+            });
+        }
+        
+        
+        );
 
-    response.render('addFile.ejs', {browserLink: link, browserFrame: link});
-});
-
-router.post('/addDirectory', (request, response) => {
-    console.log('# POST /addDirectory');
-
-    var email = request.session.email;
-
-    var body = request.body;
-    console.log(body);
-    var title = body.title;
-    var location = body.location;
-    var date = new Date();
-
-    //if (title == null)
-
-    if(database) {
-        var users = database.collection('users');
-        var files = database.collection('files');
-        var directories = database.collection('directories');
-
-        directories.insertMany([{
-            title: title,
-            location: location,
-            date: date
-        }], (err, result) => {
-            console.log('파일 추가');
-            console.log(result);
-        });
-
-        var content = users.fileTree;
-        var dir = [{ "type": "directory", "name": location + "/" + title, "contents":[]}];
+        var dir = { "type": "file", "name": location + "/" + title };
 
         var arr = location.split("/");
-        var loc = request.session.fileTree;
+        getUser(database, email, (err, docs) => {
+            if (docs) {
+                console.log("suspicious");
+                console.log(docs[0].fileTree);
+                var loc = docs[0].fileTree;
 
-        console.log("loc");
-        console.log(loc);
-        
-        for (i = 1; i < arr.length; i++) {
-            for (j = 0; j < loc.length; j++) {
-                if (loc[j].name == arr[i]) {
-                    loc = loc[j].contents;
+                console.log("loc");
+                console.log(loc);
+
+
+                for (i = 0; i < arr.length; i++) {
+                    for (j = 0; j < loc.length; j++) {
+
+                        if (loc[j].name == location) {
+                            loc[j].contents.push(dir);
+
+                        } else if (loc[j].name == arr[i]) {
+
+                            loc = loc[j].contents;
+                            console.log("docs[0].fileTree");
+                            console.log(docs[0].fileTree);
+
+                            //loc = docs[0].fileTree.concat(loc);
+                            //loc = merged.filter((item, pos) => merged.indexOf(item) === pos);
+
+                        }
+                    }
                 }
+
+
+                /*
+                                loc.forEach(o => {
+                                    if (o.name == location) {
+                                        o.contents.push(dir);
+                                        console.log("들어옴");
+                                    }
+                                });
+                                */
+
+
+
+
+
+
+
+
+                console.log("final loc");
+                console.log(loc);
+
+
+                users.updateOne({ email: email }, { $set: { fileTree: docs[0].fileTree } });
+
+                response.render('addFile.ejs', { browserLink: link, browserFrame: link });
             }
-        }
+        });
 
-        
 
-        console.log("loc");
-        console.log(loc);
 
-        loc.push(dir);
 
-        console.log("loc");
-        console.log(loc);
 
         /*
         if (location == request.session.name) {
@@ -337,10 +343,97 @@ router.post('/addDirectory', (request, response) => {
         }
         */
 
-        request.session.fileTree = loc;
     }
 
-    response.render('addDirectory.ejs', {name: request.session.name, content: loc});
+
+});
+
+router.post('/addDirectory', (request, response) => {
+    console.log('# POST /addDirectory');
+
+    var email = request.session.email;
+    console.log("email : " + email);
+
+    var body = request.body;
+    console.log(body);
+    var title = body.title;
+    var location = body.location;
+    var date = new Date();
+
+    //if (title == null)
+
+    if (database) {
+        var users = database.collection('users');
+        var files = database.collection('files');
+        var directories = database.collection('directories');
+
+        directories.insertMany([{
+            title: title,
+            location: location,
+            date: date
+        }], (err, result) => {
+            console.log('파일 추가');
+            console.log(result);
+        });
+
+        var dir = { "type": "directory", "name": location + "/" + title, "contents": [] };
+
+        var arr = location.split("/");
+        getUser(database, email, (err, docs) => {
+            if (docs) {
+                console.log("suspicious");
+                console.log(docs[0].fileTree);
+                var loc = docs[0].fileTree;
+
+                console.log("loc");
+                console.log(loc);
+
+
+                for (i = 0; i < arr.length; i++) {
+                    for (j = 0; j < loc.length; j++) {
+
+                        if (loc[j].name == location) {
+                            loc[j].contents.push(dir);
+
+                        } else if (loc[j].name == arr[i]) {
+
+                            loc = loc[j].contents;
+                            console.log("docs[0].fileTree");
+                            console.log(docs[0].fileTree);
+
+                        }
+                    }
+                }
+
+                console.log("final loc");
+                console.log(loc);
+
+
+                users.updateOne({ email: email }, { $set: { fileTree: docs[0].fileTree } });
+
+                response.render('addDirectory.ejs', { content: docs[0].fileTree });
+            }
+        });
+
+
+
+
+
+        /*
+        if (location == request.session.name) {
+            content = [];
+            content.push([{ "type": "directory", "name": title, "contents":[]}]);
+            database.users.update({email: email}, {$set: {fileTree: content}});
+        } else {
+            var dir = [{ "type": "directory", "name": title, "contents":[]}];
+            
+            database.users.update({email: email}, {$set: {fileTree: content}});
+        }
+        */
+
+    }
+
+
 });
 
 function findDirectory(directories, location, title, array, dir) {
@@ -354,14 +447,14 @@ function findDirectory(directories, location, title, array, dir) {
 
         temp.push(dir);
     }
-    directories.find({"name": location}).toArray((err, docs) => {
+    directories.find({ "name": location }).toArray((err, docs) => {
         findDirectory(directories, docs[0].location, title, array.push(docs[0].location));
     })
 }
 
 
 var storage = multer.diskStorage({
-    destination: (request, file, callback) =>{
+    destination: (request, file, callback) => {
         callback(null, 'upload');
     },
     filename: (req, file, callback) => {
@@ -380,9 +473,9 @@ var upload = multer({
 /* /signup 라우팅 */
 router.get('/signup', (request, response) => {
     console.log('# GET /signup');
-    
+
     fs.readFile('/public/login.html', (err, data) => {
-        if(err) throw err;
+        if (err) throw err;
 
         response.write(data);
         response.end();
@@ -396,22 +489,35 @@ router.post('/signup', (request, response) => {
     var pw = body.pw;
     var name = body.name;
 
-    console.log(email +', ' + pw +', ' + name);
+    console.log(email + ', ' + pw + ', ' + name);
 
-    if(database){
+    if (database) {
         addUser(database, email, pw, name, (err, result) => {
-            if(err) {
+            if (err) {
                 console.log('회원가입 중 오류 발생');
                 response.send('<h1>회원가입 중 오류 발생</h1>');
             }
 
-            if(result) {
+            if (result) {
                 console.log('회원가입 성공');
+                /*
+                                var directories = database.collection('directories');
+                
+                        directories.insertMany([{
+                            title: name,
+                            location: ".",
+                            date: new Date()
+                        }], (err, result) => {
+                            console.log('파일 추가');
+                            console.log(result);
+                        });
+                        */
+
                 response.redirect('/public/login');
             }
         });
     }
-    else{
+    else {
         console.log('데이터베이스 연결 안됨.');
         response.send('<h1>Database unconnected</h1>');
     }
@@ -421,7 +527,7 @@ router.route('/login').get((request, response) => {
     console.log('# GET /login');
 
     fs.readFile('/public/login.html', 'utf8', (err, data) => {
-        if(err) throw err;
+        if (err) throw err;
 
         response.write(data);
         response.end();
@@ -438,14 +544,14 @@ router.post('/login', (request, response) => {
 
     console.log(email + ", " + pw);
 
-    if(database) {
+    if (database) {
         authUser(database, email, pw, (err, docs) => {
-            if(err) {
+            if (err) {
                 console.log('에러발생');
                 response.end();
             };
-    
-            if(docs){
+
+            if (docs) {
                 console.log(docs);
                 console.log('로그인 성공');
                 /*
@@ -460,18 +566,18 @@ router.post('/login', (request, response) => {
                     response.redirect('/views/main.ejs');
                 })
                 */
-            
+
                 getUser(database, email, (err, docs) => {
-                    if(docs){
+                    if (docs) {
                         request.session.name = docs[0].name;
                         request.session.email = docs[0].email;
                         request.session.fileTree = docs[0].fileTree;
-                        response.render('main.ejs', {userName: docs[0].name});
+                        response.render('main.ejs', { userName: docs[0].name });
                     }
                 });
-            
+
             }
-            else{
+            else {
                 console.log('로그인 실패');
                 response.redirect('/public/login');
             }
@@ -485,16 +591,16 @@ router.get('/modify', (request, response) => {
 
     var email = request.session.user.email;
 
-    if(email) {
+    if (email) {
         console.log('로그인 된 email : ' + email);
 
         getUser(database, email, (err, docs) => {
-            if(err) {
+            if (err) {
                 console.log('데이터 검색 중 오류 발생');
                 return;
             }
 
-            if(docs){
+            if (docs) {
                 var html = `
                 <!DOCTYPE html>
                 <html lang="en">
@@ -535,7 +641,7 @@ router.get('/modify', (request, response) => {
             }
         });
     }
-    else{
+    else {
         response.send('<h1>로그인이 되어있지 않습니다.</h1><a href="/login">로그인</a>');
     }
 });
@@ -548,7 +654,7 @@ router.post('/modify', (request, response) => {
     var email = body.email;
     var pw = body.pw;
 
-    if(database) {
+    if (database) {
         console.log('회원 정보 수정');
         updateUser(database, name, email, pw);
     }
@@ -560,23 +666,23 @@ router.post('/drop', (request, response) => {
 
     console.log('회원탈퇴할 email : ' + email);
 
-    if(database) {
+    if (database) {
         deleteUser(database, email, (err, obj) => {
-            
-            if(err) {
+
+            if (err) {
                 console.log('회원 탈퇴 도중 에러 발생');
                 response.redirect('/modify');
             }
 
-            if(obj){
+            if (obj) {
 
                 console.log('회원 탈퇴 완료');
                 request.session.destroy((err) => {
-                    if(err) throw err;
-        
+                    if (err) throw err;
+
                     console.log('로그아웃 완료');
                 });
-        
+
                 response.redirect('/public/login');
             }
         });
@@ -595,4 +701,4 @@ app.all('*', (request, response) => {
 app.listen(port, () => {
     console.log(`App listening at port ${port}`)
     connectDB();
-  });
+});

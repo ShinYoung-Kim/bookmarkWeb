@@ -4,27 +4,27 @@
   <title>MyMark_Main</title>
   <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0">
   <meta charset="utf-8">
-  <link rel="stylesheet" type="text/css" href="login.css">
+  <link rel="stylesheet" href="/public/login.css">
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;800&display=swap" rel="stylesheet">
 </head>
 <body>
   <div class="container" id="container">
 	<div class="form-container sign-up-container">
-		<form action="#">
+		<form method="post" action="/signup">
 			<h1>Create Account</h1>
-			<input type="text" placeholder="Name" />
-			<input type="email" placeholder="Email" />
-			<input type="password" placeholder="Password" />
-			<button>Sign Up</button>
+			<input type="text" placeholder="Name" id="sign-up-input-name" name="name"/>
+			<input type="email" placeholder="Email" id="sign-up-input-email" name="email"/>
+			<input type="password" placeholder="Password" id="sign-up-input-password" name="pw"/>
+			<button id="sign-up-button">Sign Up</button>
 		</form>
 	</div>
 	<div class="form-container sign-in-container">
-		<form action="#">
+		<form method="post" action="/login">
 			<h1>Sign in</h1>
-			<input type="email" placeholder="Email" />
-			<input type="password" placeholder="Password" />
+			<input type="email" placeholder="Email" id="sign-in-input-email" name="email"/>
+			<input type="password" placeholder="Password" id="sign-in-input-password" name="pw" />
 			<a href="#">Forgot your password?</a>
-			<button>Sign In</button>
+			<button id="sign-in-button">Sign In</button>
 		</form>
 	</div>
 	<div class="overlay-container">
@@ -42,6 +42,6 @@
 		</div>
 	</div>
 </div>
-  <script src="login.js"></script>
+  <script src="/public/login.js"></script>
 </body>
 </html>
