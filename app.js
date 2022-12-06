@@ -191,8 +191,6 @@ app.get("/", (req, res) =>
     res.sendFile(__dirname + "/public/login.html")
 );
 
-
-
 app.get("/directory", (req, res) => {
     if (database) {
         name = req.session.name;
@@ -222,6 +220,44 @@ app.get("/addDirectory", (req, res) => {
 app.get("/addFile", (req, res) => {
     res.render('addFile.ejs')
 })
+
+app.get("/collection", (req, res) =>{
+
+    var fileArray = [];
+    var directoryArray = [];
+
+    var users = database.collection('users');
+    var files = database.collection('files');
+    var directories = database.collection('directories');
+
+    files.find({}).toArray((err, docs) => {
+        for (i = 0; i < docs.length; i++) {
+            if (directoryArray.indexOf(docs[i].location) == -1) {
+
+            } else {
+                <div class="file image file-11">
+                                    <div class="file__img" src="docs[i].image"></div>
+                                    <div class="file__info">
+                                        <h2 class="file__title">
+                                            docs[i].title
+                                        </h2>
+                                        <p class="card-text">docs[i].memo</p>
+                                        <div class="card-body">
+                                            <a href="#" class="btn btn-dark">수정하기</a>
+                                            <a href="#" class="btn btn-dark">바로가기</a>
+                                        </div>
+                                        <span class="file__date">docs[i].date</span>
+                                    </div>
+                                </div>
+            }
+        }
+    });
+}
+
+    res.render('collection.ejs')
+}
+    
+);
 
 router.post('/addFile', (request, response) => {
     console.log('# POST /addFile');
@@ -435,23 +471,6 @@ router.post('/addDirectory', (request, response) => {
 
 
 });
-
-function findDirectory(directories, location, title, array, dir) {
-    if (location == http.request.session.name) {
-
-        var users = database.collection('users');
-        var temp = users.fileTree;
-        for (i = array.length - 1; i > 0; i--) {
-            temp = temp.array[i];
-        }
-
-        temp.push(dir);
-    }
-    directories.find({ "name": location }).toArray((err, docs) => {
-        findDirectory(directories, docs[0].location, title, array.push(docs[0].location));
-    })
-}
-
 
 var storage = multer.diskStorage({
     destination: (request, file, callback) => {
