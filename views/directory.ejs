@@ -2,8 +2,8 @@
 <html lang="en" >
 <head>
   <meta charset="UTF-8">
-  <title>CodePen - File Tree</title>
-  <link rel="stylesheet" href="directory.css">
+  <title>Directory</title>
+  
   <style>
     * {
     font-family: Helvetica;
@@ -292,7 +292,7 @@ body{
 
             <ul class="list-unstyled components">
                 <li>
-                    <a href="#">Home</a>
+                    <a href="/main">Home</a>
                 </li>
                 <li class="active">
                     <a href="#pageSubmenu" data-toggle="collapse" aria-expanded="false">Bookmark</a>
@@ -304,9 +304,9 @@ body{
                 <li class="active">
                     <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false">User</a>
                     <ul class="collapse list-unstyled" id="homeSubmenu">
-                        <li><a href="#">User Information</a></li>
-                        <li><a href="#">Manage Password</a></li>
-                    </ul>
+                      <li><a href="/userInfo">User Information</a></li>
+                      <li><a href="/managePassword">Change User Information</a></li>
+                  </ul>
                 </li>
             </ul>
 
@@ -347,7 +347,11 @@ console.log("data : ");
 console.log("");
 */
 
+const browserLink = document.getElementById("browserLink");
+const browserFrame = document.getElementById("browserFrame");
+
 let data = <%- JSON.stringify(content) %>;
+let fileArray = <%- JSON.stringify(fileArray) %>;
 
     //let data = [{ "type": "directory", "name": ".", "contents": [{ "type": "directory", "name": "./bin", "contents": [{ "type": "file", "name": "./bin/greet" }] }, { "type": "directory", "name": "./lib", "contents": [{ "type": "file", "name": "./lib/greeting.rb" }] }, { "type": "directory", "name": "./spec", "contents": [{ "type": "file", "name": "./spec/01_greeting_spec.rb" }, { "type": "file", "name": "./spec/02_cli_spec.rb" }, { "type": "file", "name": "./spec/spec_helper.rb" }] }, { "type": "file", "name": "./CONTRIBUTING.md" }, { "type": "file", "name": "./Gemfile" }, { "type": "file", "name": "./Gemfile.lock" }, { "type": "file", "name": "./LICENSE.md" }, { "type": "file", "name": "./README.md" }] }];
 
@@ -479,12 +483,20 @@ const File = ({ name, setActiveNode, activeNode }) => {
   React.createElement("div", { className: "file__icon" }, /*#__PURE__*/
   React.createElement(FileIcon, null)), /*#__PURE__*/
 
-  React.createElement("a", {href: "/click/" + formatName(name)},
-  React.createElement("div", { className: "file__name"}, 
+  React.createElement("div", { className: "file__name", onClick: function() {
+    console.log("clicked");
+    for (i = 0; i < fileArray.length; i++) {
+      if (fileArray[i].title == formatName(name)) {
+        browserLink.innerHTML = fileArray[i].link;
+        browserFrame.src = fileArray[i].link;
+        break;
+      }
+    }
+     }}, 
   formatName(name)),
 
   isActive && /*#__PURE__*/
-  React.createElement("div", { className: "file__options" }, "...")));
+  React.createElement("div", { className: "file__options" }, "..."));
 
 
 
@@ -504,9 +516,6 @@ var renderTree = (node, setActiveNode, activeNode) => {
 ReactDOM.render( /*#__PURE__*/React.createElement(FileTree, { root: root }), document.getElementById('container'));
 
 
-const browserLink = document.getElementById("browserLink");
-const browserFrame = document.getElementById("browserFrame");
-var fileName = document.getElementsByClassName("file__name");
 
 </script>
 

@@ -80,7 +80,7 @@ a, a:hover, a:focus {
 
 #sidebarCollapse {
     background-color: #212121;
-    display: table-cell;
+    display: inline;
     margin-right: 30px;
 }
 
@@ -243,7 +243,7 @@ TOP BAR
 }
 
 .user-box {
-    display: table-cell;
+    display: inline;
     height: 100%;
     width: auto;
     text-align: right;
@@ -260,6 +260,7 @@ TOP BAR
     background-position: center;
     background-repeat: no-repeat;
   box-shadow: 0px 6px 8px -1px rgba(0, 0, 0, 0.2);
+    margin-right: 10px;
     
 }
 
@@ -584,6 +585,15 @@ margin-left: -30px;
    }
 }
 
+.user__img{
+    float:right;
+    display: inline;
+}
+
+.user-id{
+    float: right;
+    display: inline;
+}
 
 
 
@@ -603,7 +613,7 @@ margin-left: -30px;
 
             <ul class="list-unstyled components">
                 <li>
-                    <a href="#">Home</a>
+                    <a href="/main">Home</a>
                 </li>
                 <li class="active">
                     <a href="#pageSubmenu" data-toggle="collapse" aria-expanded="false">Bookmark</a>
@@ -616,16 +626,15 @@ margin-left: -30px;
                 <li class="active">
                     <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false">User</a>
                     <ul class="collapse list-unstyled" id="homeSubmenu">
-                        <li><a href="#">User Information</a></li>
-                        <li><a href="#">Manage Password</a></li>
+                        <li><a href="/userInfo">User Information</a></li>
+                        <li><a href="/managePassword">Change User Information</a></li>
                     </ul>
                 </li>
             </ul>
 
             <ul class="list-unstyled CTAs">
-                <li><a href="https://bootstrapious.com/tutorial/files/sidebar.zip" class="download">Show Bookmark
-                        Directory</a></li>
-                <li><a href="https://bootstrapious.com/p/bootstrap-sidebar" class="article">Back to article</a></li>
+                <li><a href="/addDirectory" class="download">Add Bookmark Directory</a></li>
+                <li><a href="/addFile" class="article">Add Bookmark File</a></li>
             </ul>
         </nav>
 
@@ -650,11 +659,10 @@ margin-left: -30px;
                             <i class="glyphicon glyphicon-align-left"></i>
                             <span>Sidebar</span>
                         </button>
-                    <input class="search search--width" type="search" placeholder="Search in the drive">
                     <div class="user-box">
                         <h4 class="user-id"><%= userName %></h4>
-                        <a href="#" class="user__img" data-toggle="tooltip" data-placement="bottom"
-                            title="My profile"></a>
+                        <a href="/userInfo" class="user__img" data-toggle="tooltip" data-placement="bottom"
+                            title="My profile" style="background-image: url(<%= image %>)"></a>
                     
                     </div>
                 </header>
@@ -664,154 +672,53 @@ margin-left: -30px;
                 <div class="files-cont">
                     <div class="row row--no-right">
                         <div class="row__title-box">
-                            <h2 class="row__title">Quick access</h2>
+                            <h2 class="row__title">Recently Added Bookmark</h2>
                         </div>
                     </div>
                     <div class="row row--no-right">
-
-                        <div class="file directory file-1 first--file">
-                            <div class="file__img"></div>
+                        <% if (docs.length < 4) { %>
+                            <% for (i = docs.length - 1; i >= 0; i--) {
+                            var file = docs[i];
+                            var date = file.date;
+                            var title = file.title;
+                            var image = file.image;
+                            %>
+                            <div class="file">
+                            <div class="file__img" style="background-image: url(<%= image %>)"></div>
                             <div class="file__info">
                                 <h2 class="file__title">
-                                    Design resources
+                                    <%= title %>
                                 </h2>
-                                <span class="file__date">28/08/2017</span>
+                                <span class="file__date"><%= date %></span>
                             </div>
                         </div>
-
-                        <div class="file image file-2">
-                            <div class="file__img"></div>
+                    
+                        <% } %>
+                        <% } else {
+                            for (i = docs.length - 1; i >= docs.length - 4; i--) {
+                            var file = docs[i];
+                            var date = file.date;
+                            var title = file.title;
+                            var image = file.image;
+                            %>
+                            <div class="file">
+                            <div class="file__img" style="background-image: url(<%= image %>)"></div>
                             <div class="file__info">
                                 <h2 class="file__title">
-                                    College Farwell
+                                    <%= title %>
                                 </h2>
-                                <span class="file__date">28/08/2017</span>
+                                <span class="file__date"><%= date %></span>
                             </div>
                         </div>
-
-                        <div class="file music file-3">
-                            <div class="file__img"></div>
-                            <div class="file__info">
-                                <h2 class="file__title">
-                                    Mozart
-                                </h2>
-                                <span class="file__date">28/08/2017</span>
-                            </div>
-                        </div>
-
-                        <div class="file movie file-4 file--last">
-                            <div class="file__img"></div>
-                            <div class="file__info">
-                                <h2 class="file__title">
-                                    Short Film
-                                </h2>
-                                <span class="file__date">03/10/2016</span>
-                            </div>
-                        </div>
+                        <% } %>
+                        <% } %>
+                        
 
                     </div>
-                    <!-- recenti-->
-                    <div class="row row--no-right">
-                        <div class="row__title-box">
-                            <h2 class="row__title">Recent</h2>
-                        </div>
-                    </div>
+                    
+                    
 
-                    <div class="row row--no-right">
-
-                        <div class="file image file-5">
-                            <div class="file__img"></div>
-                            <div class="file__info">
-                                <h2 class="file__title">
-                                    Design resources
-                                </h2>
-                                <span class="file__date">28/08/2017</span>
-                            </div>
-                        </div>
-
-                        <div class="file image file-6">
-                            <div class="file__img"></div>
-                            <div class="file__info">
-                                <h2 class="file__title">
-                                    College Farwell
-                                </h2>
-                                <span class="file__date">28/08/2017</span>
-                            </div>
-                        </div>
-
-                        <div class="file music file-7">
-                            <div class="file__img"></div>
-                            <div class="file__info">
-                                <h2 class="file__title">
-                                    Mozart
-                                </h2>
-                                <span class="file__date">28/08/2017</span>
-                            </div>
-                        </div>
-
-                        <div class="file music file-8">
-                            <div class="file__img"></div>
-                            <div class="file__info">
-                                <h2 class="file__title">
-                                    Short Film
-                                </h2>
-                                <span class="file__date">03/10/2016</span>
-                            </div>
-                        </div>
-
-                        <div class="file movie file-8">
-                            <div class="file__img"></div>
-                            <div class="file__info">
-                                <h2 class="file__title">
-                                    Short Film
-                                </h2>
-                                <span class="file__date">03/10/2016</span>
-                            </div>
-                        </div>
-
-                        <div class="file directory file-9">
-                            <div class="file__img"></div>
-                            <div class="file__info">
-                                <h2 class="file__title">
-                                    Random Files
-                                </h2>
-                                <span class="file__date">03/10/2016</span>
-                            </div>
-                        </div>
-
-                        <div class="file image file-10">
-                            <div class="file__img"></div>
-                            <div class="file__info">
-                                <h2 class="file__title">
-                                    City images
-                                </h2>
-                                <span class="file__date">03/10/2016</span>
-                            </div>
-                        </div>
-
-                        <div class="file image file-11">
-                            <div class="file__img"></div>
-                            <div class="file__info">
-                                <h2 class="file__title">
-                                    Beach
-                                </h2>
-                                <span class="file__date">03/10/2016</span>
-                            </div>
-                        </div>
-
-                        <div class="file music file-12">
-                            <div class="file__img"></div>
-                            <div class="file__info">
-                                <h2 class="file__title">
-                                    Travel
-                                </h2>
-                                <span class="file__date">03/10/2016</span>
-                            </div>
-                        </div>
-
-                    </div>
-
-
+                
 
                 </div>
             </div>
