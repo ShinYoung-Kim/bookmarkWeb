@@ -715,6 +715,9 @@ margin-left: -30px;
                             var date = docs[i][j].date;
                             var title = docs[i][j].title;
                             var link = docs[i][j].link;
+                            var file = {title: title, link: link, location: location, image: image, memo: memo};
+                            console.log(memo);
+                            console.log(location);
                             %>
                             
 
@@ -726,7 +729,7 @@ margin-left: -30px;
                                         </h2>
                                         <p class="card-text"><%= memo %></p>
                                         <div class="card-body">
-                                            <a href="/directory" class="btn btn-dark">정보보기</a>
+                                            <a href="/editFile?title=<%= title %>&link=<%= link %>&location=<%= location %>&image=<%=image%>&memo=<%=memo%>" class="btn btn-dark">정보보기</a>
                                             <a href="<%= link %>" class="btn btn-dark">바로가기</a>
                                         </div>
                                         <span class="file__date"><%= date %></span>

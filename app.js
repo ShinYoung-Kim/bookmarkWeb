@@ -251,6 +251,49 @@ app.get("/addDirectory", (req, res) => {
 
 })
 
+app.get("/editFile/:file", (req, res) => {
+
+    console.log("here!!");
+
+    email = req.session.email;
+    var file = req.params.file;
+    var title = req.params.title;
+    var link = req.params.link;
+    var location = req.params.location;
+    var image = req.params.image;
+    var memo = req.params.memo;
+
+    getUser(database, email, (err, docs) => {
+        if (docs) {
+            res.render('editFile', { title: title, link: link, location: location, image : image, memo: memo});
+        }
+    });
+})
+
+router.get("/editFile", (req, res) => {
+
+
+    console.log("There!!");
+
+    email = req.session.email;
+
+    var file = req.query.file;
+    var title = req.query.title;
+    var link = req.query.link;
+    var location = req.query.location;
+    var image = req.query.image;
+    var memo = req.query.memo;
+
+    console.log("location : " +location);
+    console.log("memo : " +memo);
+
+    getUser(database, email, (err, docs) => {
+        if (docs) {
+            res.render('editFile', { title: title, link: link, location: location, image : image, memo: memo});
+        }
+    });
+})
+
 app.get("/addFile", (req, res) => {
     res.render('addFile.ejs')
 })
@@ -317,6 +360,36 @@ router.post('/changeImg', (request, response) => {
         if (docs) {
             users.updateOne({ email: email }, { $set: { image: image} });
             response.render('userInfo.ejs', {name : docs[0].name, email : docs[0].email, image: image});
+        }
+    });
+    
+    
+});
+
+router.post('/editFile', (request, response) => {
+    var email = request.session.email;
+    var files = database.collection('files');
+    var users = database.collection('users');
+
+    var body = request.body;
+    var image = body.image;
+    var title = body.title;
+    var link = body.link;
+    var location = body.location;
+    var memo = body.memo;
+
+
+    getUser(database, email, (err, docs) => {
+        if (docs) {
+            var fileArray = docs[0].files;
+            var index = fileArray.findIndex((f => f.title ===title && f.location ===location));
+            fileArray[index].link = link;
+            fileArray[index].memo = memo;
+            fileArray[index].image = image;
+            console.log("changedLink : " + fileArray[index].link);
+            users.updateOne({ email: email }, { $set: { files: fileArray} });
+            files.updateOne({title: title, location: location}, {$set: {link: link, memo: memo, image: image}});
+            response.render('collection.ejs', {docs : docs[0]});
         }
     });
     
