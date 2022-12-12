@@ -389,7 +389,7 @@ router.post('/editFile', (request, response) => {
             console.log("changedLink : " + fileArray[index].link);
             users.updateOne({ email: email }, { $set: { files: fileArray} });
             files.updateOne({title: title, location: location}, {$set: {link: link, memo: memo, image: image}});
-            response.render('collection.ejs', {docs : docs[0]});
+            response.render('main.ejs', { userName: docs[0].name, docs: fileArray, image: docs[0].image});
         }
     });
     
