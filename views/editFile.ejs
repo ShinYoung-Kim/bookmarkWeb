@@ -363,17 +363,9 @@ body{
             <div id="browser">
                 <h2 id="browserTitle" class="browserHeader">북마크 바로가기</h2>
                 <h5 id="browserLink" class="browserHeader">
-                    <%if (typeof browserLink != "undefined") {%>
                     <%= link %>
-                    <% } else { %>
-                        https://wikidocs.net/
-                    <% } %>
                 </h5>
-                <%if (typeof browserFrame != "undefined") {%>
-                    <iframe src="<%= link %>" id="browserFrame"></iframe>
-                <% } else { %>
-                    <iframe src="https://wikidocs.net/" id="browserFrame"></iframe>
-                <% } %>
+                <iframe src="<%= link %>" id="browserFrame"></iframe>
             </div>
 
 
